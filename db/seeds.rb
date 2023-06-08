@@ -7,3 +7,9 @@
 #   Character.create(name: "Luke", movie: movies.first)
 
 Rake::Task["csv_load:all"].invoke
+# Transaction.destroy_all
+# InvoiceItem.destroy_all
+# Item.destroy_all
+# Invoice.destroy_all
+# Merchant.destroy_all
+# Customer.destroy_all
