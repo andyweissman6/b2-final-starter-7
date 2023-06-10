@@ -1,0 +1,5 @@
+<h1>Merchant Coupons Index</h1>
+<p><% @coupons.each do |coupon| %>
+    <p>Coupon Name: <%= link_to "#{coupon.name}", merchant_coupon_path(@merchant, coupon)%></p>
+    <p>Discount Amount: <%= coupon.discount_amount %></p>
+<% end %>
