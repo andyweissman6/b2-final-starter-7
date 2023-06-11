@@ -12,5 +12,10 @@ class Coupon < ApplicationRecord
     enum status: [:deactivated, :activated]
     enum discount_type: [:dollar_off, :percent_off]
 
-
+  def times_used
+    self.invoices.joins(:transactions).where(transactions: { result: "success" }).count
+    # self.invoices.joins(:transactions).where(transactions: { result: 1 }).count
+    # self.invoices.joins(:transactions).where("transactions.result = 1").count
+    # THESE ARE ALL DIFF WAYS TO WRITE SAME THING
+  end
 end
