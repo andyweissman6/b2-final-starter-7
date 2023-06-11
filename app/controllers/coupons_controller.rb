@@ -19,9 +19,13 @@ class CouponsController < ApplicationController
                         discount_type: params[:discount_type],
                           discount_amount: params[:discount_amount],
                           merchant: @merchant)
-    if coupon.save
+    if @merchant.active_maximum?
+      redirect_to new_merchant_coupon_path
+      flash[:alert] = "Error: 5 coupons are already active. Please deactivate this coupon before clicking 'Create Coupon'."
+    elsif coupon.save
       redirect_to merchant_coupons_path(@merchant)
     else
+      redirect_to new_merchant_coupon_path
       flash[:alert] = "Form filled out incorrectly. Please try again."
     end
   end

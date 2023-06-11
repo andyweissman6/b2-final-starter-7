@@ -11,4 +11,6 @@ class Coupon < ApplicationRecord
     
     enum status: [:deactivated, :activated]
     enum discount_type: [:dollar_off, :percent_off]
+
+
 end

@@ -99,4 +99,39 @@ RSpec.describe "Coupon index" do
     expect(page).to have_content("discount amount: 8")
     expect(page).to have_content("status: deactivated")
   end
+
+  it "will not allow a new active coupon to be created if maximum active coupons limit is reached" do
+    @coupon1.update(status: 1)
+    @coupon2.update(status: 1)
+    @coupon3.update(status: 1)
+    @coupon4.update(status: 1)
+    @coupon5.update(status: 1)
+
+    visit merchant_coupons_path(@merchant1)
+    click_link("Create New Coupon")
+    expect(current_path).to eq(new_merchant_coupon_path(@merchant1))
+    fill_in "Name", with: "Grand Opening"
+    fill_in "Unique Code", with: "WELCOME"
+    select "dollar_off", from: "discount_type"
+    fill_in "Discount Amount", with: "8"
+    select "activated", from: "status"
+    click_button "Create Coupon"
+    
+    expect(current_path).to eq(new_merchant_coupon_path(@merchant1))
+    expect(page).to have_content("Error: 5 coupons are already active. Please deactivate this coupon before clicking 'Create Coupon'.")
+  end
+
+  it "tests for uniqueness for unique_code attribute" do
+    visit merchant_coupons_path(@merchant1)
+    click_link("Create New Coupon")
+    expect(current_path).to eq(new_merchant_coupon_path(@merchant1))
+    fill_in "Name", with: "Grand Opening"
+    fill_in "Unique Code", with: "BF2023"
+    select "dollar_off", from: "discount_type"
+    fill_in "Discount Amount", with: "8"
+    select "activated", from: "status"
+    click_button "Create Coupon"
+
+    
+  end
 end

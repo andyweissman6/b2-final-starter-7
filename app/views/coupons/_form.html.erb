@@ -7,6 +7,9 @@
   <%= f.select :discount_type, options_for_select(["dollar_off", "percent_off"]) %><br/>
   <%= f.label :discount_amount, "Discount Amount:" %><br/>
   <%= f.text_field :discount_amount %><br/>
+  <%= f.label :status, "Status:" %><br/>
+  <%= f.select :status, options_for_select(["deactivated", "activated"])%><br/>
 <br>
   <%= f.submit 'Create Coupon' %>
+
 <% end %>
