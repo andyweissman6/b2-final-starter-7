@@ -1,4 +1,11 @@
 class Coupon < ApplicationRecord
+  validates_presence_of :name, 
+                        :unique_code,
+                        :discount_type,
+                        :discount_amount
+
+  validates :unique_code, uniqueness: true
+
     belongs_to :merchant
     has_many :invoices
     

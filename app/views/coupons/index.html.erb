@@ -1,5 +1,12 @@
+<%= render partial: "shared/nav" %>
+
 <h1>Merchant Coupons Index</h1>
+<p><%= link_to "Create New Coupon", new_merchant_coupon_path(@merchant)%></p>
+<br>
 <p><% @coupons.each do |coupon| %>
-    <p>Coupon Name: <%= link_to "#{coupon.name}", merchant_coupon_path(@merchant, coupon)%></p>
-    <p>Discount Amount: <%= coupon.discount_amount %></p>
+    <p>coupon name: <b><%= link_to "#{coupon.name}", merchant_coupon_path(@merchant, coupon)%></b></p>
+    <p>unique code: <b><%= coupon.unique_code %></b></p>
+    <p>discount type: <b><%= coupon.discount_type %></b></p>
+    <p>discount amount: <b><%= coupon.discount_amount %></b></p>
+    <p>status: <b><%= coupon.status %></b></p><br/><br/>
 <% end %>

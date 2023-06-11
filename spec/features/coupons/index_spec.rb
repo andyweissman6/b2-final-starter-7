@@ -51,18 +51,18 @@ RSpec.describe "Coupon index" do
   
   it "displays all coupon names and the discount amount" do
     visit merchant_coupons_path(@merchant1)
-    expect(page).to have_content("Coupon Name: #{@coupon1.name}")
-    expect(page).to have_content("Discount Amount: #{@coupon1.discount_amount}")
-    expect(page).to have_content("Coupon Name: #{@coupon2.name}")
-    expect(page).to have_content("Discount Amount: #{@coupon2.discount_amount}")
-    expect(page).to have_content("Coupon Name: #{@coupon3.name}")
-    expect(page).to have_content("Discount Amount: #{@coupon3.discount_amount}")
-    expect(page).to have_content("Coupon Name: #{@coupon4.name}")
-    expect(page).to have_content("Discount Amount: #{@coupon4.discount_amount}")
-    expect(page).to have_content("Coupon Name: #{@coupon5.name}")
-    expect(page).to have_content("Discount Amount: #{@coupon5.discount_amount}")
-    expect(page).to_not have_content("Coupon Name: #{@coupon6.name}")
-    expect(page).to_not have_content("Discount Amount: #{@coupon6.discount_amount}")
+    expect(page).to have_content("coupon name: #{@coupon1.name}")
+    expect(page).to have_content("discount amount: #{@coupon1.discount_amount}")
+    expect(page).to have_content("coupon name: #{@coupon2.name}")
+    expect(page).to have_content("discount amount: #{@coupon2.discount_amount}")
+    expect(page).to have_content("coupon name: #{@coupon3.name}")
+    expect(page).to have_content("discount amount: #{@coupon3.discount_amount}")
+    expect(page).to have_content("coupon name: #{@coupon4.name}")
+    expect(page).to have_content("discount amount: #{@coupon4.discount_amount}")
+    expect(page).to have_content("coupon name: #{@coupon5.name}")
+    expect(page).to have_content("discount amount: #{@coupon5.discount_amount}")
+    expect(page).to_not have_content("coupon name: #{@coupon6.name}")
+    expect(page).to_not have_content("discount amount: #{@coupon6.discount_amount}")
   end
 
   it "displays each name as a link to its show page" do
@@ -70,5 +70,33 @@ RSpec.describe "Coupon index" do
     expect(page).to have_link("#{@coupon1.name}")
     click_link("#{@coupon1.name}")
     expect(current_path).to eq(merchant_coupon_path(@merchant1, @coupon1))
+  end
+
+  #User Story 2: Merchant Coupons Create
+  it "displays a link to create a new coupon; link goes to new page form" do
+    visit merchant_coupons_path(@merchant1)
+    expect(page).to have_link("Create New Coupon")
+    click_link("Create New Coupon")
+    expect(current_path).to eq(new_merchant_coupon_path(@merchant1))
+  end
+
+  it "can fill in that form with a name, unique code, an amount, 
+      percent/dollar amount; 
+      redirects to coupon index page after submitted" do
+    visit merchant_coupons_path(@merchant1)
+    click_link("Create New Coupon")
+    expect(current_path).to eq(new_merchant_coupon_path(@merchant1))
+    fill_in "Name", with: "Grand Opening"
+    fill_in "Unique Code", with: "WELCOME"
+    select "dollar_off", from: "discount_type"
+    fill_in "Discount Amount", with: "8"
+    click_button "Create Coupon"
+      
+    expect(current_path).to eq(merchant_coupons_path(@merchant1))
+    expect(page).to have_content("coupon name: Grand Opening")
+    expect(page).to have_content("unique code: WELCOME")
+    expect(page).to have_content("discount type: dollar_off")
+    expect(page).to have_content("discount amount: 8")
+    expect(page).to have_content("status: deactivated")
   end
 end

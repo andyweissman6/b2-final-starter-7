@@ -1,0 +1,12 @@
+<%= form_with model: model, method: method, url: url, class: 'merchant_coupon_form', local: true do |f| %>
+  <%= f.label :name, "Name:" %><br/>
+  <%= f.text_field :name %><br/>
+  <%= f.label :unique_code, "Unique Code:" %><br/>
+  <%= f.text_field :unique_code %><br/>
+  <%= f.label :discount_type, "Discount Type:" %><br/>
+  <%= f.select :discount_type, options_for_select(["dollar_off", "percent_off"]) %><br/>
+  <%= f.label :discount_amount, "Discount Amount:" %><br/>
+  <%= f.text_field :discount_amount %><br/>
+<br>
+  <%= f.submit 'Create Coupon' %>
+<% end %>

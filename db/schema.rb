@@ -17,12 +17,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_10_180519) do
   create_table "coupons", force: :cascade do |t|
     t.string "name"
     t.string "unique_code"
-    t.bigint "merchant_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "status", default: 0
     t.integer "discount_type"
     t.decimal "discount_amount"
+    t.integer "status", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "merchant_id", null: false
     t.index ["merchant_id"], name: "index_coupons_on_merchant_id"
   end
 
