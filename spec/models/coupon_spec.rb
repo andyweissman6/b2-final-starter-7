@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe Coupon, type: :model do
   before :each do
     @merchant1 = Merchant.create!(name: "Hair Care")
-    @coupon1 = @merchant1.coupons.create!(name: "Last Season", unique_code: "CODE1", discount_type: 0, discount_amount: 10)
-    @coupon2 = @merchant1.coupons.new(name: "Black Friday", unique_code: "CODE2", discount_type: 0, discount_amount: 20)
+    @coupon_example1 = @merchant1.coupons.create!(name: "TEST1", unique_code: "CODE1", discount_type: 0, discount_amount: 0)
+    @coupon2_example2 = @merchant1.coupons.new(name: "TEST2", unique_code: "CODE2", discount_type: 0, discount_amount: 0)
   end
 
   describe "validations" do
