@@ -80,6 +80,13 @@ describe Merchant do
       @transaction7 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_8.id)
       @transaction8 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_9.id)
 
+      @coupon1 = Coupon.create!(name: "Last Season", unique_code: "LS10", discount_type: 0, discount_amount: 10, merchant_id: @merchant1.id)
+      @coupon2 = Coupon.create!(name: "Black Friday", unique_code: "BF2023", discount_type: 0, discount_amount: 20, merchant_id: @merchant1.id)
+      @coupon3 = Coupon.create!(name: "Cyber Monday", unique_code: "CYBER", discount_type: 0, discount_amount: 30, merchant_id: @merchant1.id)
+      @coupon4 = Coupon.create!(name: "Summer Savings", unique_code: "SUMMER23", discount_type: 1, discount_amount: 0.23, merchant_id: @merchant1.id)
+      @coupon5 = Coupon.create!(name: "End of Year Sale", unique_code: "NEWYEAR24", discount_type: 1, discount_amount: 0.15, merchant_id: @merchant1.id)
+      @coupon6 = Coupon.create!(name: "Liquidation Sale", unique_code: "EVERYTHING", discount_type: 1, discount_amount: 0.5, merchant_id: @merchant2.id)
+
     end
 
     it 'top_merchants' do
@@ -140,6 +147,12 @@ describe Merchant do
       @transaction7 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_7.id)
       @transaction7 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_8.id)
 
+      @coupon1 = Coupon.create!(name: "Last Season", unique_code: "LS10", discount_type: 0, discount_amount: 10, merchant_id: @merchant1.id)
+      @coupon2 = Coupon.create!(name: "Black Friday", unique_code: "BF2023", discount_type: 0, discount_amount: 20, merchant_id: @merchant1.id)
+      @coupon3 = Coupon.create!(name: "Cyber Monday", unique_code: "CYBER", discount_type: 0, discount_amount: 30, merchant_id: @merchant1.id)
+      @coupon4 = Coupon.create!(name: "Summer Savings", unique_code: "SUMMER23", discount_type: 1, discount_amount: 0.23, merchant_id: @merchant1.id)
+      @coupon5 = Coupon.create!(name: "End of Year Sale", unique_code: "NEWYEAR24", discount_type: 1, discount_amount: 0.15, merchant_id: @merchant1.id)
+      @coupon6 = Coupon.create!(name: "Liquidation Sale", unique_code: "EVERYTHING", discount_type: 1, discount_amount: 0.5, merchant_id: @merchant2.id)
     end
     it "can list items ready to ship" do
       expect(@merchant1.ordered_items_to_ship).to eq([@item_1, @item_1, @item_3, @item_4, @item_7, @item_8, @item_4, @item_4])
@@ -168,6 +181,23 @@ describe Merchant do
     it "disabled_items" do 
       expect(@merchant1.disabled_items).to eq([@item_2, @item_3, @item_4, @item_7, @item_8])
       expect(@merchant2.disabled_items).to eq([@item_5, @item_6])
+    end
+
+    it "#five_coupons_max: merchant can only have 5 activated coupons at once; will not let you create a new one with 'activated'" do
+      @coupon1.update(status: 1)
+      @coupon2.update(status: 1)
+      @coupon3.update(status: 1)
+      @coupon4.update(status: 1)
+    
+      expect(@merchant1.active_coupon_count).to eq(4)
+      expect(@merchant1.active_maximum?).to eq(false)
+      
+      @coupon5.update(status: 1)
+      @coupon6.update(merchant_id: @merchant1.id, status: 1)
+
+      expect(@merchant1.active_coupon_count).to eq(6)
+      expect(@merchant1.active_maximum?).to eq(true)
+
     end
   end
 end
