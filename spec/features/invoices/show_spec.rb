@@ -100,4 +100,33 @@ RSpec.describe "invoices show" do
     end
   end
 
+  # it "displays the invoice subtotal for merchant w/o coupon (dollar-off)" do
+  #   visit merchant_invoice_path(@merchant1, @invoice_1)
+  #   within("#subtotal") do
+  #     expect(page).to have_content("Subtotal: $20.00")
+  #   end
+  # end
+
+  # it "displays grand total after coupon applied (dollar-off)" do
+  #   within("#grand-total") do
+  #   expect(page).to have_content("Grand total: $15.00")
+  #   end
+  # end
+
+  # it "displays the invoice subtotal for merchant w/o coupon (percent-off)" do
+  #   visit merchant_invoice_path(@merchant1, @invoice_1)
+  #   within("#subtotal") do
+  #     expect(page).to have_content("Subtotal: $20.00")
+  #   end
+  # end
+
+  # it "displays grand total after coupon applied (percent-off)" do
+  #   within("#grand-total") do
+  #   expect(page).to have_content("Grand total: $18.00")
+  #   end
+  # end
+
+  # it "displays a link to that coupon's show page" do
+
+  # end
 end

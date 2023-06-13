@@ -54,13 +54,12 @@ RSpec.describe "Coupon Show" do
 
     visit merchant_coupon_path(@merchant1, @coupon1)
     within("#coupon-info") do
-      expect(page).to have_content(@coupon1.name)
-      expect(page).to have_content(@coupon1.unique_code)
-      expect(page).to have_content(@coupon1.discount_amount)
-      expect(page).to have_content(@coupon1.status)
+      expect(page).to have_content("name: Last Season")
+      expect(page).to have_content("unique code: LS10")
+      expect(page).to have_content("discount amount: 10")
+      expect(page).to have_content("status: deactivated")
+      expect(page).to have_content("times used: 1")
 
-      expect(@coupon1.times_used).to eq(1)
-      expect(page).to have_content(@coupon1.times_used)
     end
   end
 

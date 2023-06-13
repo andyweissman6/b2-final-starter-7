@@ -4,7 +4,7 @@ class Coupon < ApplicationRecord
                         :discount_type,
                         :discount_amount
 
-  validates :unique_code, uniqueness: true
+  validates :unique_code, uniqueness: { case_sensitive: false }
 
     belongs_to :merchant
     has_many :invoices
