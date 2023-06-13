@@ -3,10 +3,29 @@
 <h1>Merchant Coupons Index</h1>
 <p><%= link_to "Create New Coupon", new_merchant_coupon_path(@merchant)%></p>
 <br>
-<p><% @coupons.each do |coupon| %>
-    <p>coupon name: <b><%= link_to "#{coupon.name}", merchant_coupon_path(@merchant, coupon)%></b></p>
-    <p>unique code: <b><%= coupon.unique_code %></b></p>
-    <p>discount type: <b><%= coupon.discount_type %></b></p>
-    <p>discount amount: <b><%= coupon.discount_amount %></b></p>
-    <p>status: <b><%= coupon.status %></b></p><br/><br/>
-<% end %>
+
+<section id ="activated-coupons">
+<b><h2>Activated Coupons</h2></b>
+    <p><% @coupons.each do |coupon| %>
+        <% if coupon.status == "activated" %>
+            <p>coupon name: <b><%= link_to "#{coupon.name}", merchant_coupon_path(@merchant, coupon)%></b></p>
+            <p>unique code: <b><%= coupon.unique_code %></b></p>
+            <p>discount type: <b><%= coupon.discount_type %></b></p>
+            <p>discount amount: <b><%= coupon.discount_amount %></b></p>
+            <p>status: <b><%= coupon.status %></b></p><br/><br/>
+        <% end %>
+    <% end %>
+</section>
+
+<section id ="deactivated-coupons">
+<b><h2>Deactivated Coupons</h2></b>
+    <p><% @coupons.each do |coupon| %>
+        <% if coupon.status == "deactivated" %>
+            <p>coupon name: <b><%= link_to "#{coupon.name}", merchant_coupon_path(@merchant, coupon)%></b></p>
+            <p>unique code: <b><%= coupon.unique_code %></b></p>
+            <p>discount type: <b><%= coupon.discount_type %></b></p>
+            <p>discount amount: <b><%= coupon.discount_amount %></b></p>
+            <p>status: <b><%= coupon.status %></b></p><br/><br/>
+        <% end %>
+    <% end %>
+</section>

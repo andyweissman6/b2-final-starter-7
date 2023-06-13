@@ -45,8 +45,8 @@ RSpec.describe "Coupon index" do
     @coupon2 = Coupon.create!(name: "Black Friday", unique_code: "BF2023", discount_type: 0, discount_amount: 20, merchant_id: @merchant1.id)
     @coupon3 = Coupon.create!(name: "Cyber Monday", unique_code: "CYBER", discount_type: 0, discount_amount: 30, merchant_id: @merchant1.id)
     @coupon4 = Coupon.create!(name: "Summer Savings", unique_code: "SUMMER23", discount_type: 1, discount_amount: 0.23, merchant_id: @merchant1.id)
-    @coupon5 = Coupon.create!(name: "End of Year Sale", unique_code: "NEWYEAR24", discount_type: 1, discount_amount: 0.15, merchant_id: @merchant1.id)
-    @coupon6 = Coupon.create!(name: "Liquidation Sale", unique_code: "EVERYTHING", discount_type: 1, discount_amount: 0.5, merchant_id: @merchant2.id)
+    @coupon5 = Coupon.create!(name: "End of Year Sale", unique_code: "NEWYEAR24", discount_type: 1, discount_amount: 0.15, merchant_id: @merchant1.id, status: 1)
+    @coupon6 = Coupon.create!(name: "Liquidation Sale", unique_code: "EVERYTHING", discount_type: 1, discount_amount: 0.5, merchant_id: @merchant2.id, status: 1)
   end
   
   it "displays all coupon names and the discount amount" do
@@ -121,15 +121,24 @@ RSpec.describe "Coupon index" do
     expect(page).to have_content("Error: 5 coupons are already active. Please deactivate this coupon before clicking 'Create Coupon'.")
   end
 
-  # it "tests for uniqueness for unique_code attribute" do
-  #   visit merchant_coupons_path(@merchant1)
-  #   click_link("Create New Coupon")
-  #   expect(current_path).to eq(new_merchant_coupon_path(@merchant1))
-  #   fill_in "Name", with: "Grand Opening"
-  #   fill_in "Unique Code", with: "BF2023"
-  #   select "dollar_off", from: "discount_type"
-  #   fill_in "Discount Amount", with: "8"
-  #   select "activated", from: "status"
-  #   click_button "Create Coupon"    
-  # end
+  it "displays active coupons in its own section" do
+    visit merchant_coupons_path(@merchant1)
+    within("#activated-coupons") do
+      expect(page).to have_content("coupon name: #{@coupon5.name}")
+      expect(page).to_not have_content("coupon name: #{@coupon1.name}")
+      expect(page).to_not have_button("activate coupon")
+    end
+  end
+
+  it "displays active coupons in its own section" do
+    visit merchant_coupons_path(@merchant1)
+    within("#deactivated-coupons") do
+      expect(page).to have_content("coupon name: #{@coupon1.name}")
+      expect(page).to have_content("coupon name: #{@coupon2.name}")
+      expect(page).to have_content("coupon name: #{@coupon3.name}")
+      expect(page).to have_content("coupon name: #{@coupon4.name}")
+      expect(page).to_not have_content("coupon name: #{@coupon5.name}")
+      expect(page).to_not have_button("deactivate coupon")
+    end
+  end
 end
