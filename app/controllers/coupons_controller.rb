@@ -1,5 +1,5 @@
 class CouponsController < ApplicationController
-  before_action :find_merchant, only: [:new, :create, :index]
+  before_action :find_merchant, only: [:new, :show, :create, :index]
 
   def index
     @coupons = @merchant.coupons
@@ -30,7 +30,20 @@ class CouponsController < ApplicationController
     end
   end
 
+  def update
+    merchant = Merchant.find(params[:merchant_id])
+    coupon = Coupon.find(params[:id])
+    coupon.update(update_coupon_params)
+    redirect_to merchant_coupon_path(merchant, coupon)
+    flash[:notice] = "Coupon status updated successfully"
+  end
+  
+
   private
+
+  def update_coupon_params
+    params.permit(:status)
+  end
 
   def coupon_params
     params.require(:coupon).permit(:name, :unique_code, :discount_type, :discount_amount)

@@ -53,14 +53,48 @@ RSpec.describe "Coupon Show" do
     @invoice_1.update(coupon_id: @coupon1.id)
 
     visit merchant_coupon_path(@merchant1, @coupon1)
-    save_and_open_page
-    expect(page).to have_content(@coupon1.name)
-    expect(page).to have_content(@coupon1.unique_code)
-    expect(page).to have_content(@coupon1.discount_amount)
-    expect(page).to have_content(@coupon1.status)
+    within("#coupon-info") do
+      expect(page).to have_content(@coupon1.name)
+      expect(page).to have_content(@coupon1.unique_code)
+      expect(page).to have_content(@coupon1.discount_amount)
+      expect(page).to have_content(@coupon1.status)
 
-    expect(@coupon1.times_used).to eq(1)
-    expect(page).to have_content(@coupon1.times_used)
+      expect(@coupon1.times_used).to eq(1)
+      expect(page).to have_content(@coupon1.times_used)
+    end
+  end
+
+  it "displays button to deactivate the coupon" do
+    @invoice_1.update(coupon_id: @coupon1.id)
+    @coupon1.update(status: 1)
+    expect(@coupon1.status).to eq("activated")
+    visit merchant_coupon_path(@merchant1, @coupon1)
+
+    within("#deactivate") do
+      expect(page).to have_button("deactivate coupon")
+
+      click_button("deactivate coupon")
+      @coupon1.reload
+
+      expect(current_path).to eq(merchant_coupon_path(@merchant1, @coupon1))
+      expect(@coupon1.status).to eq("deactivated")
+    end
+  end
+
+  it "displays button to activate the coupon" do
+    @invoice_1.update(coupon_id: @coupon1.id)
+    expect(@coupon1.status).to eq("deactivated")
+
+    visit merchant_coupon_path(@merchant1, @coupon1)
+    within("#activate") do
+      expect(page).to have_button("activate coupon")
+
+      click_button("activate coupon")
+      @coupon1.reload
+
+      expect(current_path).to eq(merchant_coupon_path(@merchant1, @coupon1))
+      expect(@coupon1.status).to eq("activated")
+    end
   end
 end
 

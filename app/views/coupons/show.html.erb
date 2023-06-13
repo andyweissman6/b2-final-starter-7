@@ -1,7 +1,27 @@
 <h2>Coupon: "<%=@coupon.name %>'s" Show Page</h2>
-
+<div id="coupon-info">
   <p>name: <b><%= @coupon.name %></b></p>
   <p>unique code: <b><%= @coupon.unique_code %></b></p>
   <p>discount amount: <b><%= @coupon.discount_amount %></b></p>
   <p>status: <b><%= @coupon.status %></b></p><br/>
   <p>times used: <b><%= @coupon.times_used %></b></p><br/><br/>
+</div>
+
+<section id="activate">
+  <% if @coupon.status == "deactivated" %>
+    <p><%= form_with url: merchant_coupon_path(@merchant, @coupon), method: :patch, local: true do |f| %></p>
+        <%= f.hidden_field :status, value: "activated" %>
+        <%= f.submit "activate coupon" %>
+    <% end %>
+  <% end %>
+</section>
+
+<section id="deactivate">
+  <% if @coupon.status == "activated" %>
+    <p><%= form_with url: merchant_coupon_path(@merchant, @coupon), method: :patch, local: true do |f| %></p>
+        <%= f.hidden_field :status, value: "deactivated" %>
+        <%= f.submit "deactivate coupon" %>
+    <% end %>
+  <% end %>
+
+</section>

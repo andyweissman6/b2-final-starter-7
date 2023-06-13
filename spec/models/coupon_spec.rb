@@ -15,12 +15,6 @@ RSpec.describe Coupon, type: :model do
     # it { should validate validate_presence_of :discount_amount }
   end
   
-  # it "validates case-sensitive uniqueness of unique_code" do
-    
-  #   expect(@coupon2.valid?).to be_falsey
-  #   expect(@coupon2.errors[:unique_code]).to include("has already been taken")
-  # end
-
   describe "relationships" do
     it { should belong_to :merchant }
     it { should have_many :invoices }
