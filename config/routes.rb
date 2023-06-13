@@ -4,8 +4,10 @@ Rails.application.routes.draw do
     resources :items, except: [:destroy]
     resources :item_status, only: [:update]
     resources :invoices, only: [:index, :show, :update]
-    resources :coupons, except: [:destroy]
+    resources :coupons, only: [:index, :show, :new, :create, :update]
   end
+  
+  post "/merchants/:merchant_id/coupons/new", to: "coupons#create"
 
   namespace :admin do
     resources :dashboard, only: [:index]
@@ -13,6 +15,5 @@ Rails.application.routes.draw do
     resources :merchant_status, only: [:update]
     resources :invoices, except: [:new, :destroy]
   end
-
-  post "/merchants/:merchant_id/coupons/new", to: "coupons#create"
 end
+

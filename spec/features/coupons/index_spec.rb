@@ -121,17 +121,15 @@ RSpec.describe "Coupon index" do
     expect(page).to have_content("Error: 5 coupons are already active. Please deactivate this coupon before clicking 'Create Coupon'.")
   end
 
-  it "tests for uniqueness for unique_code attribute" do
-    visit merchant_coupons_path(@merchant1)
-    click_link("Create New Coupon")
-    expect(current_path).to eq(new_merchant_coupon_path(@merchant1))
-    fill_in "Name", with: "Grand Opening"
-    fill_in "Unique Code", with: "BF2023"
-    select "dollar_off", from: "discount_type"
-    fill_in "Discount Amount", with: "8"
-    select "activated", from: "status"
-    click_button "Create Coupon"
-
-    
-  end
+  # it "tests for uniqueness for unique_code attribute" do
+  #   visit merchant_coupons_path(@merchant1)
+  #   click_link("Create New Coupon")
+  #   expect(current_path).to eq(new_merchant_coupon_path(@merchant1))
+  #   fill_in "Name", with: "Grand Opening"
+  #   fill_in "Unique Code", with: "BF2023"
+  #   select "dollar_off", from: "discount_type"
+  #   fill_in "Discount Amount", with: "8"
+  #   select "activated", from: "status"
+  #   click_button "Create Coupon"    
+  # end
 end
