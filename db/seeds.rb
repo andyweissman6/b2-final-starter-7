@@ -8,7 +8,7 @@
 @customer_5 = Customer.create!(first_name: "Sylvester", last_name: "Nader")
 @customer_6 = Customer.create!(first_name: "Herber", last_name: "Kuhn")
 
-@coupon1 = Coupon.create!(name: "Last Season", unique_code: "LS10", discount_type: 0, discount_amount: 10, merchant_id: @merchant1.id)
+@coupon1 = Coupon.create!(name: "Last Season", unique_code: "12345", discount_type: 0, discount_amount: 10, merchant_id: @merchant1.id)
 @coupon2 = Coupon.create!(name: "Black Friday", unique_code: "BF2024", discount_type: 0, discount_amount: 20, merchant_id: @merchant1.id)
 @coupon3 = Coupon.create!(name: "Cyber Monday", unique_code: "CYBER24", discount_type: 0, discount_amount: 30, merchant_id: @merchant1.id)
 @coupon4 = Coupon.create!(name: "Summer Savings", unique_code: "SUMMER24", discount_type: 1, discount_amount: 0.23, merchant_id: @merchant1.id)
