@@ -152,5 +152,6 @@ RSpec.describe "Coupon index" do
       expect(page).to_not have_content("coupon name: #{@coupon5.name}")
       expect(page).to_not have_button("deactivate coupon")
     end
+    save_and_open_page
   end
 end

@@ -3,6 +3,7 @@ class CouponsController < ApplicationController
 
   def index
     @coupons = @merchant.coupons
+    @holidays = HolidayBuilder.get_next_holidays
   end
 
   def show

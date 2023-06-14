@@ -1,5 +1,12 @@
 <%= render partial: "shared/nav" %>
-
+<h3> Upcoming Holidays </h3>
+    <ol>
+    <%= @holidays.each do |holiday| %>
+        <li><%= holiday.name %></li>
+        <p><%= holiday.date %></p>
+    <% end %>
+    </ol>
+    
 <h1>Merchant Coupons Index</h1>
 <p><%= link_to "Create New Coupon", new_merchant_coupon_path(@merchant)%></p>
 <br>
