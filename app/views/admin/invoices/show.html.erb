@@ -45,3 +45,14 @@
   </table>
 
 </body>
+
+<h1>Invoice Revenue</h1>
+  <% if @invoice.coupon_id.nil? %>
+    <ul>Total Revenue: <%= number_to_currency(@invoice.total_revenue) %></ul>
+  <% else %>
+    <ul>Coupon name: <%= (@invoice.coupon.name) %></ul>
+    <ul>Coupon code: <%= (@invoice.coupon.unique_code) %></ul>
+    <ul>Subtotal: <%= number_to_currency(@invoice.total_revenue) %></ul>
+    <ul>Grand total: <%= number_to_currency(@invoice.grand_total_revenue) %></ul>
+    
+<% end %>

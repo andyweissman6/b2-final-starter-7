@@ -45,12 +45,8 @@ class CouponsController < ApplicationController
     params.permit(:status)
   end
 
-  def coupon_params
-    params.require(:coupon).permit(:name, :unique_code, :discount_type, :discount_amount)
-  end
 
   def find_merchant
     @merchant = Merchant.find(params[:merchant_id])
-    # redirect_to merchants_path, alert: "Merchant not found" unless @merchant
   end
 end

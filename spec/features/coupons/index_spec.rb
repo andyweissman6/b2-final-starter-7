@@ -80,9 +80,7 @@ RSpec.describe "Coupon index" do
     expect(current_path).to eq(new_merchant_coupon_path(@merchant1))
   end
 
-  it "can fill in that form with a name, unique code, an amount, 
-      percent/dollar amount; 
-      redirects to coupon index page after submitted" do
+  it "can fill in that form with a name, unique code, an amount, percent/dollar amount; redirects to coupon index page after submitted" do
     visit merchant_coupons_path(@merchant1)
     click_link("Create New Coupon")
     expect(current_path).to eq(new_merchant_coupon_path(@merchant1))
@@ -98,6 +96,20 @@ RSpec.describe "Coupon index" do
     expect(page).to have_content("discount type: dollar_off")
     expect(page).to have_content("discount amount: 8")
     expect(page).to have_content("status: deactivated")
+  end
+
+  it "will not create a coupon if foms are not filled in" do
+    visit merchant_coupons_path(@merchant1)
+    click_link("Create New Coupon")
+    expect(current_path).to eq(new_merchant_coupon_path(@merchant1))
+    fill_in "Name", with: ""
+    fill_in "Unique Code", with: "WELCOME"
+    select "dollar_off", from: "discount_type"
+    fill_in "Discount Amount", with: "8"
+    click_button "Create Coupon"
+
+    expect(page).to have_content("Form filled out incorrectly. Please try again.")
+    expect(current_path).to eq(new_merchant_coupon_path(@merchant1))
   end
 
   it "will not allow a new active coupon to be created if maximum active coupons limit is reached" do

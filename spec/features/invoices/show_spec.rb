@@ -124,7 +124,6 @@ RSpec.describe "invoices show" do
 
   it "displays grand total after coupon applied (percent-off)" do
     visit merchant_invoice_path(@merchant1, @invoice_3)
-    # save_and_open_page
     expect(page).to have_content("Subtotal: $16.00")
     expect(page).to have_content("Grand total: $15.96")
   end
@@ -132,5 +131,7 @@ RSpec.describe "invoices show" do
   it "displays a link to that coupon's show page" do
     visit merchant_invoice_path(@merchant1, @invoice_3)
     expect(page).to have_link("Coupon: Summer Savings SUMMER23")
+    click_link("Coupon: Summer Savings SUMMER23")
+    expect(current_path).to eq("/merchants/#{@merchant1.id}/coupons/#{@coupon4.id}")
   end
 end

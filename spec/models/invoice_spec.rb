@@ -43,11 +43,9 @@ RSpec.describe Invoice, type: :model do
       @ii_3 = InvoiceItem.create!(invoice_id: @invoice_2.id, item_id: @item_8.id, quantity: 1, unit_price: 10, status: 1)
       @ii_4 = InvoiceItem.create!(invoice_id: @invoice_3.id, item_id: @item_8.id, quantity: 1, unit_price: 100, status: 1)
 
-
       expect(@invoice_1.grand_total_revenue).to eq(90)
       expect(@invoice_2.grand_total_revenue).to eq(8)
       expect(@invoice_3.grand_total_revenue).to eq(0)
-
     end
   end
 end

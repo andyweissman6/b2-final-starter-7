@@ -182,8 +182,17 @@ describe Merchant do
       expect(@merchant1.disabled_items).to eq([@item_2, @item_3, @item_4, @item_7, @item_8])
       expect(@merchant2.disabled_items).to eq([@item_5, @item_6])
     end
+    
+    it "#active_coupon_count" do
+      @coupon1.update(status: 1)
+      @coupon2.update(status: 1)
+      @coupon3.update(status: 1)
+      @coupon4.update(status: 1)
 
-    it "#five_coupons_max: merchant can only have 5 activated coupons at once; will not let you create a new one with 'activated'" do
+      expect(@merchant1.active_coupon_count).to eq(4)
+    end
+    
+    it "#active_maximum?'" do
       @coupon1.update(status: 1)
       @coupon2.update(status: 1)
       @coupon3.update(status: 1)
@@ -199,5 +208,7 @@ describe Merchant do
       expect(@merchant1.active_maximum?).to eq(true)
 
     end
+
+    
   end
 end
