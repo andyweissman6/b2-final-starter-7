@@ -1,6 +1,6 @@
 class HolidayBuilder
   def self.get_next_holidays
-    response = HTTParty.get("")
+    response = HTTParty.get("https://date.nager.at/api/v3/NextPublicHolidays/US")
     parsed = JSON.parse(response.body, symbolize_names: true)
       holidays = parsed.map do |data|
         Holiday.new(data)
@@ -10,6 +10,6 @@ class HolidayBuilder
       holiday_date = Date.parse(holiday.date)
       holiday_date >= query_date
     end
-    next_three_days
+    next_holidays.first(3)
   end
 end
