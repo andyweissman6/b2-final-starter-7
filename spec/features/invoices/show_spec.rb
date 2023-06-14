@@ -22,9 +22,16 @@ RSpec.describe "invoices show" do
     @customer_5 = Customer.create!(first_name: "Sylvester", last_name: "Nader")
     @customer_6 = Customer.create!(first_name: "Herber", last_name: "Kuhn")
 
-    @invoice_1 = Invoice.create!(customer_id: @customer_1.id, status: 2, created_at: "2012-03-27 14:54:09")
+    @coupon1 = Coupon.create!(name: "Last Season", unique_code: "LS10", discount_type: 0, discount_amount: 10, merchant_id: @merchant1.id)
+    @coupon2 = Coupon.create!(name: "Black Friday", unique_code: "BF2023", discount_type: 0, discount_amount: 20, merchant_id: @merchant1.id)
+    @coupon3 = Coupon.create!(name: "Cyber Monday", unique_code: "CYBER", discount_type: 0, discount_amount: 30, merchant_id: @merchant1.id)
+    @coupon4 = Coupon.create!(name: "Summer Savings", unique_code: "SUMMER23", discount_type: 1, discount_amount: 0.23, merchant_id: @merchant1.id)
+    @coupon5 = Coupon.create!(name: "End of Year Sale", unique_code: "NEWYEAR24", discount_type: 1, discount_amount: 0.15, merchant_id: @merchant1.id)
+    @coupon6 = Coupon.create!(name: "Liquidation Sale", unique_code: "EVERYTHING", discount_type: 1, discount_amount: 0.5, merchant_id: @merchant2.id)
+
+    @invoice_1 = Invoice.create!(customer_id: @customer_1.id, status: 2, created_at: "2012-03-27 14:54:09", coupon: @coupon1)
     @invoice_2 = Invoice.create!(customer_id: @customer_1.id, status: 2, created_at: "2012-03-28 14:54:09")
-    @invoice_3 = Invoice.create!(customer_id: @customer_2.id, status: 2)
+    @invoice_3 = Invoice.create!(customer_id: @customer_2.id, status: 2, coupon: @coupon4)
     @invoice_4 = Invoice.create!(customer_id: @customer_3.id, status: 2)
     @invoice_5 = Invoice.create!(customer_id: @customer_4.id, status: 2)
     @invoice_6 = Invoice.create!(customer_id: @customer_5.id, status: 2)
@@ -51,6 +58,8 @@ RSpec.describe "invoices show" do
     @transaction6 = Transaction.create!(credit_card_number: 879799, result: 0, invoice_id: @invoice_6.id)
     @transaction7 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_7.id)
     @transaction8 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_8.id)
+
+    
   end
 
   it "shows the invoice information" do
@@ -100,33 +109,28 @@ RSpec.describe "invoices show" do
     end
   end
 
-  # it "displays the invoice subtotal for merchant w/o coupon (dollar-off)" do
-  #   visit merchant_invoice_path(@merchant1, @invoice_1)
-  #   within("#subtotal") do
-  #     expect(page).to have_content("Subtotal: $20.00")
-  #   end
-  # end
+  it "displays the invoice subtotal for merchant w/o coupon" do
+    visit merchant_invoice_path(@merchant1, @invoice_2)
+    
+    expect(page).to have_content("Total Revenue: $10.00")
+  end
+  
+  it "displays grand total after coupon applied (dollar-off)" do
+    visit merchant_invoice_path(@merchant1, @invoice_1)
+    
+    expect(page).to have_content("Subtotal: $162.00")
+    expect(page).to have_content("Grand total: $152.00")
+  end
 
-  # it "displays grand total after coupon applied (dollar-off)" do
-  #   within("#grand-total") do
-  #   expect(page).to have_content("Grand total: $15.00")
-  #   end
-  # end
+  it "displays grand total after coupon applied (percent-off)" do
+    visit merchant_invoice_path(@merchant1, @invoice_3)
+    # save_and_open_page
+    expect(page).to have_content("Subtotal: $16.00")
+    expect(page).to have_content("Grand total: $15.96")
+  end
 
-  # it "displays the invoice subtotal for merchant w/o coupon (percent-off)" do
-  #   visit merchant_invoice_path(@merchant1, @invoice_1)
-  #   within("#subtotal") do
-  #     expect(page).to have_content("Subtotal: $20.00")
-  #   end
-  # end
-
-  # it "displays grand total after coupon applied (percent-off)" do
-  #   within("#grand-total") do
-  #   expect(page).to have_content("Grand total: $18.00")
-  #   end
-  # end
-
-  # it "displays a link to that coupon's show page" do
-
-  # end
+  it "displays a link to that coupon's show page" do
+    visit merchant_invoice_path(@merchant1, @invoice_3)
+    expect(page).to have_link("Coupon: Summer Savings SUMMER23")
+  end
 end
