@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     resources :coupons, only: [:index, :show, :new, :create, :update]
   end
   
+  get "/", to: "application#welcome"
   post "/merchants/:merchant_id/coupons/new", to: "coupons#create"
 
   namespace :admin do
